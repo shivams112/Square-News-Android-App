@@ -1,4 +1,4 @@
-package io.noexceptionfound.droid.newsapp;
+package io.github.shivams112.squarenews;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

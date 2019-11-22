@@ -1,4 +1,4 @@
-package io.noexceptionfound.droid.newsapp;
+package io.github.shivams112.squarenews;
 
 import org.junit.Test;
 
