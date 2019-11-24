@@ -164,8 +164,7 @@ public class HomeScreen extends AppCompatActivity
     }
 
     private void getTopHeadlinesFromASource(String newsSource){
-         String country ="in";
-            String count  = locationConfig();
+         String country = locationConfig();
         StringRequest stringRequest = new StringRequest(GET, Constants.BASE_URL+"top-headlines?sources="+"&country="+country.substring(0,2) + Constants.API_KEY_STR + Constants.API_KEY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
