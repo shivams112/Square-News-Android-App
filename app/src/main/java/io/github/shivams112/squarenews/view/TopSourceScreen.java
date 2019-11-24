@@ -1,6 +1,11 @@
 package io.github.shivams112.squarenews.view;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.location.LocationManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,6 +24,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.karan.churi.PermissionManager.PermissionManager;
 
 import io.github.shivams112.squarenews.R;
 import io.github.shivams112.squarenews.adapter.TopSourcesAdapter;
@@ -32,6 +48,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.android.volley.Request.Method.GET;
@@ -43,13 +60,34 @@ public class TopSourceScreen extends AppCompatActivity {
     private ArrayList<Sources> mSourcesArrayList;
     private ProgressBar mProgressBar;
     private TextView tvFooterText;
+    private PermissionManager mPermissionManager;
+    private GoogleApiClient googleApiClient;
+    final static int REQUEST_LOCATION = 199;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top_source_screen);
         mSourcesArrayList = new ArrayList<>();
+       mPermissionManager = new PermissionManager() { };
+      mPermissionManager.checkAndRequestPermissions(this);
         initUI();
+
+    }
+
+
+
+
+
+    //Taking location permission from user
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        mPermissionManager.checkResult(requestCode,permissions,grantResults);
+
+        ArrayList<String> granted = mPermissionManager.getStatus().get(0).granted;
+        ArrayList<String> denied = mPermissionManager.getStatus().get(0).denied;
+
+
     }
 
 
@@ -153,4 +191,5 @@ public class TopSourceScreen extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(stringRequest);
     }
+
 }
